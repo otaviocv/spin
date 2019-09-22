@@ -1,5 +1,7 @@
 import numpy as np
 
+from .util import check_distance_matrix
+
 class SPIN():
     """ SPIN Clustering method object.
 
@@ -47,6 +49,7 @@ class SPIN():
         distances: array, shape (n_points, n_points)
             The distances symmetric square matrix.
         """
+        check_distance_matrix(distances)
         return self
     
 
