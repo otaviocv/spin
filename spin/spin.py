@@ -2,6 +2,7 @@ import numpy as np
 
 from .utils import check_distance_matrix
 
+
 class SPIN():
     """ SPIN Clustering method object.
 
@@ -51,7 +52,6 @@ class SPIN():
         """
         check_distance_matrix(distances)
         return self
-    
 
 
 def neighborhood(distances, weight_matrix, max_iter=100):
@@ -65,8 +65,10 @@ def neighborhood(distances, weight_matrix, max_iter=100):
             W = permutation.T.dot(W)
     return permutation
 
+
 def argmin_(M):
     return M
+
 
 def side_to_side(distances, strictly_increasing_vector, max_iter=100):
     """ Side To Side SPIN algorithm
@@ -104,6 +106,7 @@ def cost_function(distances, permutation, weight):
                        .dot(permutation.T)
                        .dot(weight)).trace()
 
+
 def weight_matrix(strictly_increasing_vector):
     return strictily_increasing_vector.dot(strictly_increasing_vector.T)
 
@@ -114,9 +117,9 @@ def general_distance_matrix(X, dist_function):
     for i in range(0, n):
         for j in range(i, n):
             dist = dist_function(X[:, i], X[:, j])
-            dist_matrix[i,j] = dist
-            dist_matrix[j,i] = dist
-        
+            dist_matrix[i, j] = dist
+            dist_matrix[j, i] = dist
+
 
 def l2_distance_matrix(X, Y):
     dists = -2 * X.T.dot(Y) + \
@@ -124,6 +127,7 @@ def l2_distance_matrix(X, Y):
             np.sum(Y**2, axis=0).reshape(1, -1).T
     dists[dists < 0] = 0
     return np.sqrt(dists)
+
 
 def l1_distance_matrix(X, Y):
     pass

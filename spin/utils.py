@@ -1,5 +1,6 @@
 import numpy as np
 
+
 def check_distance_matrix(distances):
     """ Perform all test to check if the distance matrix provided respects
     all constraints a distance matrix must have.
