@@ -43,6 +43,7 @@ class TestCheckDistanceMatrix:
     def test_symmetric_and_square_matrices(self, matrix):
         check_distance_matrix(matrix)
 
+
 class TestIsSymmetric:
 
     matrix_examples = [
