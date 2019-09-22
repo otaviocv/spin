@@ -1,6 +1,6 @@
 import numpy as np
 
-from .util import check_distance_matrix
+from .utils import check_distance_matrix
 
 class SPIN():
     """ SPIN Clustering method object.
