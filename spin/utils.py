@@ -34,4 +34,4 @@ def is_symmetric(matrix, rtol=1e-5, atol=1e-8):
     atol: float, optional (default=1e-8)
         Absolute tolerance.
     """
-    return np.allclose(a, a.T, rtol=rtol, atol=atol)
+    return np.allclose(matrix, matrix.T, rtol=rtol, atol=atol)
