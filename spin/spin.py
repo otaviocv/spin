@@ -1,5 +1,56 @@
 import numpy as np
 
+class SPIN():
+    """ SPIN Clustering method object.
+
+    Parameters
+    ----------
+    method: str, {"sts", "neighborhood"}, optional, (default="sts")
+        String determining which method to calculate permutations, either "sts"
+        for side to side method or "neighborhood" for neighborhood method.
+    verbose: boolean, optional (default=False)
+        Flag indicating to show logs and information during the SPIN process.
+    max_iter: int, optional (default=100)
+        Maximum number of iterations to perform. It is needed for both methods.
+
+    Attributes
+    ----------
+    distances_: array, shape (n, n)
+        The original distances matrix provided.
+    permutation_: array, shape (n, n)
+        Permutation matrix that can be applied to the original distances matrix
+        to get to the ordered distances matrix.
+    ordered_distances_: array, shape (n, n)
+        Distances matrix reordered by the permutation matrix. Before run this
+        is the original distance matrix.
+
+    References
+    ----------
+    D. Tsafrir, I. Tsafrir, L. Ein-Dor, O. Zuk, D.A. Notterman, E. Domany,
+        Sorting points into neighborhoods (SPIN): data analysis and
+        visualization by ordering distance matrices, Bioinformatics, Volume 21,
+        Issue 10, , Pages 2301–2308,
+        https://doi.org/10.1093/bioinformatics/bti329
+    """
+
+    def __init__(self, method="sts", verbose=False, max_iter=100):
+        self.method = method
+        self.verbose = verbose
+        self.max_iter = max_iter
+        return self
+
+    def run(self, distances):
+        """ Calculate the permutation matrix and apply to the original data.
+
+        Parameters
+        ----------
+        distances: array, shape (n_points, n_points)
+            The distances symmetric square matrix.
+        """
+        return self
+    
+
+
 def neighborhood(distances, weight_matrix, max_iter=100):
     permutation = np.identity(distances.shape[0])
     W = weight_matrix
