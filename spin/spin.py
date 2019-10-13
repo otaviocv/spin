@@ -1,10 +1,10 @@
+"""Main SPIN module with main classes and SPIN algorithms."""
 import numpy as np
-
 from .utils import check_distance_matrix
 
 
 class SPIN():
-    """ SPIN Clustering method object.
+    """SPIN Clustering method.
 
     Parameters
     ----------
@@ -30,48 +30,73 @@ class SPIN():
     References
     ----------
     D. Tsafrir, I. Tsafrir, L. Ein-Dor, O. Zuk, D.A. Notterman, E. Domany,
-        Sorting points into neighborhoods (SPIN): data analysis and
+        Sortiug points into neighborhoods (SPIN): data analysis and
         visualization by ordering distance matrices, Bioinformatics, Volume 21,
         Issue 10, , Pages 2301–2308,
         https://doi.org/10.1093/bioinformatics/bti329
+
     """
 
     def __init__(self, method="sts", verbose=False, max_iter=100):
-        self.method = method
+        if method in {"sts", "neighborhood"}:
+            self.method = method
+        else:
+            raise ValueError("The allowed methods are 'sts' and "
+                             f" 'neighborhood', you provided {method}")
         self.verbose = verbose
         self.max_iter = max_iter
-        return self
 
     def run(self, distances):
-        """ Calculate the permutation matrix and apply to the original data.
+        """Calculate the permutation matrix.
+
+        Calculate permutation matrix and apply to the original data with the
+        specified method.
 
         Parameters
         ----------
         distances: array, shape (n_points, n_points)
             The distances symmetric square matrix.
+
         """
         check_distance_matrix(distances)
+        # if self.method == "sts":
+        #     pass
+        # elif:
+        #     pass
         return self
 
 
 def neighborhood(distances, weight_matrix, max_iter=100):
+    """Neighborhood SPIN algorithm.
+
+    Parameters
+    ----------
+    distances: np.array, shape [n, n]
+        Distance symmetric square matrix.
+    weight_matrix: np.array, shape [n, n]
+        A initial weight matrix to update permutaions matrix.
+    max_iter: int, default=100
+        Maximum number of iterations.
+
+    Returns
+    -------
+    permutation: np.array, shape [n, n]
+        Permutation matrix with the same dimensions of the distance matrix.
+
+    """
     permutation = np.identity(distances.shape[0])
     W = weight_matrix
     M = distances.dot(W)
     for i in range(max_iter):
         new_M = distances.dot(W)
-        new_permutation = argmin_(M)
+        new_permutation = np.identity()[np.argmin(new_M, axis=0)]
         if permutation.dot(M).trace() != new_permutation.dot(new_M).trace():
             W = permutation.T.dot(W)
     return permutation
 
 
-def argmin_(M):
-    return M
-
-
 def side_to_side(distances, strictly_increasing_vector, max_iter=100):
-    """ Side To Side SPIN algorithm
+    """Side To Side SPIN algorithm.
 
     Parameters
     ----------
@@ -87,6 +112,7 @@ def side_to_side(distances, strictly_increasing_vector, max_iter=100):
     -------
     permutation: np.array, shape [n, n]
         Permutation matrix with the same dimensions of the distance matrix.
+
     """
     X = strictly_increasing_vector
     permutation = np.identity(distances.shape[0])
@@ -99,35 +125,3 @@ def side_to_side(distances, strictly_increasing_vector, max_iter=100):
         permutation = new_permutation
         X = permutation.dot(X)
     return permutation
-
-
-def cost_function(distances, permutation, weight):
-    return (permutation.dot(distances)
-                       .dot(permutation.T)
-                       .dot(weight)).trace()
-
-
-def weight_matrix(strictly_increasing_vector):
-    return strictily_increasing_vector.dot(strictly_increasing_vector.T)
-
-
-def general_distance_matrix(X, dist_function):
-    n = X.shape[1]
-    dist_matrix = np.zeros((n, n), dtype=float)
-    for i in range(0, n):
-        for j in range(i, n):
-            dist = dist_function(X[:, i], X[:, j])
-            dist_matrix[i, j] = dist
-            dist_matrix[j, i] = dist
-
-
-def l2_distance_matrix(X, Y):
-    dists = -2 * X.T.dot(Y) + \
-            np.sum(X**2, axis=0) + \
-            np.sum(Y**2, axis=0).reshape(1, -1).T
-    dists[dists < 0] = 0
-    return np.sqrt(dists)
-
-
-def l1_distance_matrix(X, Y):
-    pass

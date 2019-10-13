@@ -1,7 +1,4 @@
-"""
-SPIN Module implements a simple class to perform a permutation on
-distances matrix arising spontaneous clusters.
-"""
+"""SPIN Module with the main implementaion."""
 
 from .spin import SPIN
 

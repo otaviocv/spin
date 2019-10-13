@@ -1,9 +1,13 @@
+"""Utility functions to support other modules."""
+
 import numpy as np
 
 
 def check_distance_matrix(distances):
-    """ Perform all test to check if the distance matrix provided respects
-    all constraints a distance matrix must have.
+    """Perform all tests to check if the distance matrix is correct.
+
+    Check if the distances matrix provided respects all constraints a distance
+    matrix must have.
 
     Parameters
     ----------
@@ -11,7 +15,6 @@ def check_distance_matrix(distances):
         The distances symmetric square matrix.
 
     """
-
     # square matrix check
     if distances.shape[0] != distances.shape[1]:
         raise ValueError("Distance matrix provided is not square. "
@@ -23,7 +26,7 @@ def check_distance_matrix(distances):
 
 
 def is_symmetric(matrix, rtol=1e-5, atol=1e-8):
-    """ Check if a matrix is symmetric.
+    """Check if a matrix is symmetric.
 
     Parameters
     ----------
@@ -33,5 +36,6 @@ def is_symmetric(matrix, rtol=1e-5, atol=1e-8):
         Relative tolerance.
     atol: float, optional (default=1e-8)
         Absolute tolerance.
+
     """
     return np.allclose(matrix, matrix.T, rtol=rtol, atol=atol)

@@ -1,3 +1,4 @@
+"""Utils module tests unit."""
 import pytest as pt
 import numpy as np
 
