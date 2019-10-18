@@ -1,7 +1,8 @@
 """SPIN Module with the main implementaion."""
 
-from .spin import SPIN
+from .spin import SideToSideSPIN, NeighborhoodSPIN
 
 __all__ = [
-        "SPIN"
+        "SideToSideSPIN",
+        "NeighborhoodSPIN",
         ]
