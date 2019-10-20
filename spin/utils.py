@@ -39,3 +39,46 @@ def is_symmetric(matrix, rtol=1e-5, atol=1e-8):
 
     """
     return np.allclose(matrix, matrix.T, rtol=rtol, atol=atol)
+
+
+def random_permutation_matrix(size):
+    """Random permutation matrix.
+    
+    Parameters
+    ----------
+    size : int
+        The dimension of the random permutation matrix.
+
+    Returns
+    -------
+    random_permutation : array, shape (size, size)
+        An identity matrix with its rows random shuffled.
+
+    """
+    identity = np.identity(size)
+    index = np.arange(0, size)
+    np.random.shuffle(index)
+    random_permutation = identity[index]
+    return random_permutation
+
+
+def spin_energy(ordered_distances, weight_matrix):
+    """SPIN matrix energy.
+
+    Metrices with better sorting have lower energies.
+
+    Parameters
+    ----------
+    ordered_distances : array, shape (n, n)
+        The ordered distances matrix. ordered_distances = PDP.T
+    weight_matrix : array, shape (n, n)
+        The weight matrix to weight the ordered distances matrix.
+
+    Returns
+    -------
+    energy : float
+        The energy of the associated ordered distance matrix and the
+        weight matrix.
+    """
+    energy = np.trace(ordered_distances.dot(weight_matrix))
+    return energy
