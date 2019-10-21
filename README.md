@@ -1,8 +1,7 @@
 # SPIN
 *Sorting Points Into Neighborhoods Python Package*
 
-.. |Travis| image:: https://api.travis-ci.org/otaviocv/spin.svg?branch=master
-.. _Travis: https://travis-ci.org/otaviocv/spin
+[![Travis](https://api.travis-ci.org/otaviocv/spin.svg?branch=master)](https://travis-ci.org/otaviocv/spin)
 
 ## Introduction
 
