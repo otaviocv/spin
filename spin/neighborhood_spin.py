@@ -104,12 +104,14 @@ def neighborhood(distances, weight_matrix, max_iter=100, verbose=False):
 
 
 def single_neighborhood_sort(distances, weight_matrix):
+    size = len(distances)
     mismatch = distances.dot(weight_matrix)
-    idx_m = np.argmin(mismatch, axis=1)
-    val_m = mismatch[np.arange(mismatch.shape[0]), idx_m]
-    mx = max(val_m)
-    sort_score = (idx_m + 1.
-                  - 0.1 * np.sign((mismatch.shape[0] / 2. - idx_m + 1.)) * val_m / mx)
+    min_index = np.argmin(mismatch, axis=1)
+    min_values = mismatch[np.arange(size), idx_m]
+    max_value = max(min_values)
+    sort_score = (min_index + 1.
+                  - 0.1 * np.sign((size / 2. - min_index + 1.)) *
+                  min_values / max_value)
     sorted_ind = np.argsort(sort_score)
     permutation = np.identity(distances.shape[0])[sorted_ind]
     return permutation, mismatch
