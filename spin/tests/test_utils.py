@@ -44,6 +44,14 @@ class TestCheckDistanceMatrix:
     def test_symmetric_and_square_matrices(self, matrix):
         check_distance_matrix(matrix)
 
+    negative_entry_matrix_test_data = [
+            pt.param(np.array([[-1, 0], [0, -1]]), marks=pt.mark.xfail),
+            ]
+
+    @pt.mark.parametrize("matrix", negative_entry_matrix_test_data)
+    def test_raise_value_error_for_nagative_entry_matrices(self, matrix):
+        check_distance_matrix(matrix)
+
 
 class TestIsSymmetric:
 

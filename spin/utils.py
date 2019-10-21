@@ -24,6 +24,11 @@ def check_distance_matrix(distances):
     if not is_symmetric(distances):
         raise ValueError("Distance matrix provided is not symmetric.")
 
+    # all positive
+    if not np.all(distances >= 0):
+        raise ValueError("Distances matrices must have all its entries "
+                         "positive.")
+
 
 def is_symmetric(matrix, rtol=1e-5, atol=1e-8):
     """Check if a matrix is symmetric.
@@ -43,7 +48,7 @@ def is_symmetric(matrix, rtol=1e-5, atol=1e-8):
 
 def random_permutation_matrix(size):
     """Random permutation matrix.
-    
+
     Parameters
     ----------
     size : int

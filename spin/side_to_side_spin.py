@@ -11,7 +11,7 @@ class SideToSideSPIN():
         The maximum number of iterations of each round of sorting.
     verbose : boolean, optional (default=False)
         Flag indicating to show logs and information during the SPIN process.
-    
+
     Attributes
     ----------
     distances_ : array, shape (n, n)
@@ -49,7 +49,8 @@ class SideToSideSPIN():
                                                    .dot(self.permutation_.T)
         assert np.array_equal(self.distances_, self.ordered_distances_)
         self.increasing_vector_ = np.array([i-(self.size_+1)/2
-                                           for i in range(self.size_)]).reshape(-1, 1)
+                                           for i in range(self.size_)]) \
+                                    .reshape(-1, 1)
         self.weight_matrix_ = self.increasing_vector_ \
                                   .dot(self.increasing_vector_.T)
         print(self.weight_matrix_)

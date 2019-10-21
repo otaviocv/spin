@@ -1,3 +1,6 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from .utils import check_distance_matrix, spin_energy
 
 class NeighborhoodSPIN():
     """Neighborhood SPIN clustering method.
@@ -8,8 +11,8 @@ class NeighborhoodSPIN():
         Initial sigma value. This parameter controls the weight matrix
         dispersion.
     update_factor : float, optional (default=0.5)
-        The number that will update the sigma value at each iteration. Sigma will
-        be updated by sigma = sigma * update_factor.
+        The number that will update the sigma value at each iteration. Sigma
+        will be updated by sigma = sigma * update_factor.
     max_iter : int, optional (default=100)
         The maximum number of iterations of each round of sorting.
     verbose : boolean, optional (default=False)
@@ -35,7 +38,7 @@ class NeighborhoodSPIN():
         https://doi.org/10.1093/bioinformatics/bti329
 
     """
-    def __init__(intial_sigma=2e10, update_factor=0.5, max_iter=100,
+    def __init__(self, intial_sigma=2**10, update_factor=0.5, max_iter=100,
                  verbose=False):
         self.intial_sigma = intial_sigma
         self.update_factor = update_factor
@@ -43,21 +46,28 @@ class NeighborhoodSPIN():
         self.verbose = verbose
 
     def run(self, X):
+        check_distance_matrix(X)
+
         self.size_ = X.shape[0]
         self.distances_ = X
-        self.permutation_ = np.identity(self.size)
+        self.permutation_ = np.identity(self.size_)
         self.ordered_distances_ = self.permutation_.dot(self.distances_) \
                                                    .dot(self.permutation_.T)
         sigma = self.intial_sigma
         while sigma > 1:
-            weight_matrix = initial_weight_matrix(self.size, sigma)
+            weight_matrix = initial_weight_matrix(self.size_, sigma)
             permutation = neighborhood(self.ordered_distances_,
-                                             weight_matrix,
-                                             self.max_iter,
-                                             self.verbose)
-            self.ordered_distances_ = permutation.dot(self.ordered_distances_) \
+                                       weight_matrix,
+                                       self.max_iter,
+                                       self.verbose)
+            plt.matshow(permutation)
+            self.ordered_distances_ = permutation.dot(self.ordered_distances_)\
                                                  .dot(permutation.T)
+            plt.matshow(self.ordered_distances_)
+            self.permutation_ = permutation.dot(self.permutation_)
             sigma = sigma * self.update_factor
+
+
 def neighborhood(distances, weight_matrix, max_iter=100, verbose=False):
     """Neighborhood SPIN algorithm.
 
@@ -80,25 +90,29 @@ def neighborhood(distances, weight_matrix, max_iter=100, verbose=False):
 
     """
     permutation = np.identity(distances.shape[0])
-    W = weight_matrix
-    M = distances.dot(W)
+    mismatch_matrix = distances.dot(weight_matrix)
+    trace = np.trace(permutation.dot(mismatch_matrix))
     for i in range(max_iter):
-
-        if verbose:
-            if i%100 == 0:
-                print(f"\niter={i} ", end="")
-            else:
-                print(".", end="")
-
-        new_M = distances.dot(W)
-        new_permutation = np.identity(distances.shape[0])[np.argmin(new_M,
-                                                                    axis=0)]
-        if permutation.dot(M).trace() != new_permutation.dot(new_M).trace():
-            W = permutation.T.dot(W)
-        else:
+        (new_permutation,
+         new_mismatch) = single_neighborhood_sort(distances, weight_matrix)
+        new_trace = np.trace(new_permutation.dot(new_mismatch))
+        if new_trace == trace:
             break
-    return permutation
+        weight_matrix = new_permutation.T.dot(weight_matrix)
+        trace = new_trace
+    return new_permutation
 
+
+def single_neighborhood_sort(distances, weight_matrix):
+    mismatch = distances.dot(weight_matrix)
+    idx_m = np.argmin(mismatch, axis=1)
+    val_m = mismatch[np.arange(mismatch.shape[0]), idx_m]
+    mx = max(val_m)
+    sort_score = (idx_m + 1.
+                  - 0.1 * np.sign((mismatch.shape[0] / 2. - idx_m + 1.)) * val_m / mx)
+    sorted_ind = np.argsort(sort_score)
+    permutation = np.identity(distances.shape[0])[sorted_ind]
+    return permutation, mismatch
 
 
 def initial_weight_matrix(size, sigma=1e2):
@@ -106,7 +120,7 @@ def initial_weight_matrix(size, sigma=1e2):
 
     This initial matrix is initialized with exponential coefficients and then
     turned into a doubly stochastic matrix.
-    
+
     Parameters
     ----------
     size : int
@@ -124,7 +138,6 @@ def initial_weight_matrix(size, sigma=1e2):
     diff_index_matrix = rows_index_matrix - columns_index_matrix
     exp_arg_index_matrix = -(diff_index_matrix**2)/(size*sigma)
     non_normalized_weight_matrix = np.exp(exp_arg_index_matrix)
-    print(non_normalized_weight_matrix)
     weight_matrix = sinkhorn_knopp_normalization_alogrithm(
             non_normalized_weight_matrix
             )
@@ -134,7 +147,7 @@ def initial_weight_matrix(size, sigma=1e2):
 def sinkhorn_knopp_normalization_alogrithm(matrix, tolerance=1e-5,
                                            max_iter=1000):
     """ The Sinkhorn Knopp algorithm to turn matrices into doubly stochastic.
-    
+
     Parameters
     ----------
     matrix : array
@@ -164,13 +177,12 @@ def sinkhorn_knopp_normalization_alogrithm(matrix, tolerance=1e-5,
     """
     norm_matrix = matrix.copy()
     for i in range(max_iter):
-        print(".", end="")
         col_sum = norm_matrix.sum(axis=0)
         norm_matrix = norm_matrix/col_sum
         row_sum = norm_matrix.sum(axis=1).reshape(-1, 1)
         norm_matrix = norm_matrix/row_sum
 
         if (np.all(np.abs(norm_matrix.sum(axis=1) - 1) < tolerance) and
-            np.all(np.abs(norm_matrix.sum(axis=0) - 1) < tolerance)):
+           np.all(np.abs(norm_matrix.sum(axis=0) - 1) < tolerance)):
             break
     return norm_matrix
