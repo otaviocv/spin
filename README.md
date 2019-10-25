@@ -18,6 +18,11 @@ This python relies on another implementation from
 
 ## Installation
 
+To intall the spin package just run
+
+```
+$ pip install spin-clustering
+```
 
 ## Quick start
 
