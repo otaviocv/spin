@@ -1,7 +1,12 @@
 language: python
 python: "3.6"
 
-install: "make init"
+jobs:
+    include:
+        - stage: "Unit tests"
+          install: "make init"
+          script: "make test"
+        - stage: "Deploy"
+          if: branch = master
+          script: echo Deploy!
 
-script:
-    - make test
