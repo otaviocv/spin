@@ -5,6 +5,9 @@ jobs:
   - stage: Unit tests
     install: make init
     script: make test
+  - stage: Build
+    install: make init
+    script: make build
   - stage: Deploy
     if: branch = master
     user: "__token__"
