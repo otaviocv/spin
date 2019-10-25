@@ -1,12 +1,15 @@
 language: python
-python: "3.6"
-
+python: '3.6'
 jobs:
-    include:
-        - stage: "Unit tests"
-          install: "make init"
-          script: "make test"
-        - stage: "Deploy"
-          if: branch = master
-          script: echo Deploy!
-
+  include:
+  - stage: Unit tests
+    install: make init
+    script: make test
+  - stage: Deploy
+    if: branch = master
+    user: "__token__"
+    password:
+        secure: Os0BPMsYToI9UqP4+rRgbNKPaBsXAa9ttQuTB9piT4bNo/a6C8F7SVGDqj0ftasNTzQrhRUO0Kdvs/e6mpgkNsRd4PoCKjkm6gF1p4j+LvWNk/HbkuoTASm7GznLxh49SBjxr8EmPcQc0I4S++cr94CRzQtVL9s34OxsK2NdnCfysHrPqBnrvZbtru9hldK60JFJhvIrf99YK215sHb5xgB9DSWonlepq20IudcYclh0XEtHvGFh1O7v+1FckFi49qkS9WOAIP1iPgAHmi7rHGTFlnJNkPyCabLkdBY//bE/k/Zj0whyNjEhyl4/XeD/BzBUWfF+vvr3g3idf6YKPf6a7NXJbui8u2fYRflOc5rQYqxysFHfs7Gv845OGHhU94GEABmdPxV84YchWaMyeySL4dLmYAgL3Yk3m2UokerQutww1GRF+ZKdxm2+d8J0YWm2xi+dHbAfYGx70P4H3wcH+4qrcdg+Aj/P/39znn7CfvT3oVoc6nCiOtPZLMKux8YblZrbccTTONV68ZixKPNomjtFcU/36MTKsXAVck03TKrRaGtSLa/UUcZ39YoJN1MtxG9xSzAOOh2NieioMyLPyPjoq+XR2QfjfWiiVYxFa7tr5hlQQlxAWN4psmIDuFoBX573XdVZbmth0klWwfnB6Tne3Qo9e/1Qe3OUy70=
+    on:
+        tags: true
+    script: echo Deploy!
