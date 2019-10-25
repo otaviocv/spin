@@ -9,5 +9,9 @@ lint:
 	pydocstyle
 	pycodestyle
 
+init:
+	pip install pipenv
+	pipenv install --dev
+
 test:
 	pytest --cov --codestyle --docstyle ${TEST_PATH}
