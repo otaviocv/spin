@@ -3,5 +3,5 @@ language: python
 jobs:
     include:
         - stage: tests
-          before_install: python setup.py install
+          install: python setup.py install
           script: pytest
