@@ -1,16 +1,15 @@
 language: python
 python: '3.6'
-jobs:
-  include:
-  - stage: Unit tests
-    install: make init
-    script: make test
-  - stage: Build
-    install: make init
-    script: make build
-  - stage: Deploy
+
+install: make init
+
+script: make test
+script: make build
+
+deploy:
     provider: pypi
     if: branch = master
     user: "__token__"
     password:
         secure: "n1BaVqvgJqDKQBEZbUcHJjeNq4zkXTZwJOpmUfHCV5bvzo/48Yrk03biW6Q61ZcGy59IJnaNoT+lKGN1ESoyzGdwAg+pSZPy2y9kGRcKu2DeVq7UQDUEUwXCfo0L/2NTmN4nNuWQeSZDBS3w4DhfCdc15F6lRh1HyhAnXIAG4Q+27dosmdgf/nhYkbfqVY08JHdRtGsA7EwSpUGM44BsjgRgtOZxk95yXVTdEJgHoc1zoA8/hijDfbeH4Mk2Hw5vGR6DkFh/vGvGY50EsMsf6m8KYuGosnq6As/pkUabRn4BdaQVqlwfRIA393sOSQQ5mI1An2on67T/rIk1aG2+ESkzIXjVbT/PgKygUlrAbyrzasclbwsqU38ADxlP3tbry0vnbISoL8DLJ8cuwghFAi94pblOBbkTWfz36uyXRV5pS5XEZRFsE3jhRWWYDQAXrqbMp+c8W4JIKWAaPjexD0phRxjgoPRciVk5nxWmlNJ9waFIHJeTjVtRrsHILlXBFtC0ZDfRDkbDoL+brdryS76ziOKBniP+7duRlgpEjV8pks+e5/7FGeVFE4YvEhWTsdMB+Bt2ey0VRt+s9o01b5RXfOj3/imgLc/l14cghHtRg3Wj5q8g3tBW5q8V58y8adIlSX8bvwUG+DNbaSIohsvgAGwtucTCjcuCE+xcn+8="
+    distributions: sdist bdist_wheel
