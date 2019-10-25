@@ -10,7 +10,7 @@ def general_distance_matrix(X, dist_function):
     X : array, shape (n, k)
         The first set of column vectors. This is a set of k vectors with
         dimension of n.
-   dist_function: array, shape (n, n)
+    dist_function: array, shape (n, n)
         The custom function that will calculate distance between vectors. It
         must be a two argument fucntion that returns a number.
 

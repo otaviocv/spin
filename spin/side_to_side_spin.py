@@ -1,3 +1,6 @@
+"""Side to side SPIN Module."""
+import numpy as np
+
 
 class SideToSideSPIN():
     """Side to side SPIN clustering method.
@@ -32,12 +35,25 @@ class SideToSideSPIN():
         https://doi.org/10.1093/bioinformatics/bti329
 
     """
+
     def __init__(self, random_starts=5, max_iter=100, verbose=False):
         self.random_starts = random_starts
         self.max_iter = max_iter
         self.verbose = verbose
 
     def run(self, X):
+        """Execute the Side To Side sorting.
+
+        Parameters
+        ----------
+        X : array, shape (n, n)
+
+        Returns
+        -------
+        self : SideToSideSPIN
+            The object itself containing the ordered distances matrix.
+
+        """
         if X.shape[0] != X.shape[1]:
             raise ValueError("The SPIN method only works with square matrices."
                              f"You provided a matrix of shape {X.shape}.")

@@ -10,4 +10,4 @@ lint:
 	pycodestyle
 
 test:
-	pytest --cov --codestyle --docstyle {TEST_PATH}
+	pytest --cov --codestyle --docstyle ${TEST_PATH}

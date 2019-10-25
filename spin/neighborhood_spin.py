@@ -1,6 +1,8 @@
+"""Neighborhood SPIN Module."""
 import numpy as np
 import matplotlib.pyplot as plt
 from .utils import check_distance_matrix, spin_energy
+
 
 class NeighborhoodSPIN():
     """Neighborhood SPIN clustering method.
@@ -38,6 +40,7 @@ class NeighborhoodSPIN():
         https://doi.org/10.1093/bioinformatics/bti329
 
     """
+
     def __init__(self, intial_sigma=2**10, update_factor=0.5, max_iter=100,
                  verbose=False):
         self.intial_sigma = intial_sigma
@@ -46,6 +49,18 @@ class NeighborhoodSPIN():
         self.verbose = verbose
 
     def run(self, X):
+        """Execute the Neighborhood sorting.
+
+        Parameters
+        ----------
+        X : array, shape (n, n)
+
+        Returns
+        -------
+        self : NeighborhoodSPIN
+            The object itself containing the ordered distances matrix.
+
+        """
         check_distance_matrix(X)
 
         self.size_ = X.shape[0]
@@ -66,6 +81,7 @@ class NeighborhoodSPIN():
             plt.matshow(self.ordered_distances_)
             self.permutation_ = permutation.dot(self.permutation_)
             sigma = sigma * self.update_factor
+        return self
 
 
 def neighborhood(distances, weight_matrix, max_iter=100, verbose=False):
@@ -104,6 +120,17 @@ def neighborhood(distances, weight_matrix, max_iter=100, verbose=False):
 
 
 def single_neighborhood_sort(distances, weight_matrix):
+    """Single stage on the neighborhood sorting process.
+
+    Parameters
+    ----------
+    distances : array, shape (n, n)
+        The distances matrix to be sorted.
+    weight_matrix : array, shape (n, n)
+        The weight matrix to take into in account in sorting. The distribuition
+        on the matrix values control the scale of the sorting operations.
+
+    """
     size = len(distances)
     mismatch = distances.dot(weight_matrix)
     min_index = np.argmin(mismatch, axis=1)
@@ -118,7 +145,7 @@ def single_neighborhood_sort(distances, weight_matrix):
 
 
 def initial_weight_matrix(size, sigma=1e2):
-    """Initial weight matrix for neighborhood method.
+    """Initialize the weight matrix for neighborhood method.
 
     This initial matrix is initialized with exponential coefficients and then
     turned into a doubly stochastic matrix.
@@ -127,7 +154,7 @@ def initial_weight_matrix(size, sigma=1e2):
     ----------
     size : int
         The size of the initial weight matrix.
-    sigma : float
+    sigma : float, optional, (default=1e2)
         Coefficient to control dispersion of the weigth metrix coefficients.
 
     Returns
@@ -148,7 +175,10 @@ def initial_weight_matrix(size, sigma=1e2):
 
 def sinkhorn_knopp_normalization_alogrithm(matrix, tolerance=1e-5,
                                            max_iter=1000):
-    """ The Sinkhorn Knopp algorithm to turn matrices into doubly stochastic.
+    """Turn matrices into doubly stochastic matrices.
+
+    Turn matrices into doubly stochastic matrix through the Sinkhorn Knopp
+    algorithm.
 
     Parameters
     ----------
