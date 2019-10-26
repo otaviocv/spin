@@ -10,7 +10,7 @@ setup(name="spin-clustering",
       description="SPIN clustering method package.",
       license="MIT",
       version="0.0.4",
-      packages=setuptools.find_packages(),
+      packages=find_packages(),
       python_requires=">=3.6",
       install_requires=[
           'numpy>=1.16.4',
