@@ -15,7 +15,7 @@ init:
 	pipenv install --dev
 
 build:
-	python setup.py sdist
+	python setup.py sdist bdist_wheel
 
 test:
 	pytest --cov --codestyle --docstyle ${TEST_PATH}
