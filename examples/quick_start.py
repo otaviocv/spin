@@ -13,6 +13,6 @@ distances = l2_distance_matrix(X.T, X.T) # The l2 distance matrix computes the
                                          # vectors, so lets compute all
                                          # distances from all data points.
 spin = NeighborhoodSPIN()
-spin.run(X)
+spin.run(distances)
 
 plt.matshow(spin.ordered_distances_)
