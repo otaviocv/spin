@@ -14,6 +14,10 @@ class TestNeighborhoodSPIN():
             (100, 3),
             (500, 1),
             (50, 4),
+            (30, 6),
+            (20, 10),
+            (200, 2),
+            (300, 3),
             ]
 
     @pt.mark.parametrize("points_per_cluster,n_clusters",

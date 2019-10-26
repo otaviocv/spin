@@ -1,6 +1,5 @@
 """Neighborhood SPIN Module."""
 import numpy as np
-import matplotlib.pyplot as plt
 from .utils import check_distance_matrix, spin_energy
 
 
@@ -75,10 +74,8 @@ class NeighborhoodSPIN():
                                        weight_matrix,
                                        self.max_iter,
                                        self.verbose)
-            plt.matshow(permutation)
             self.ordered_distances_ = permutation.dot(self.ordered_distances_)\
                                                  .dot(permutation.T)
-            plt.matshow(self.ordered_distances_)
             self.permutation_ = permutation.dot(self.permutation_)
             sigma = sigma * self.update_factor
         return self
