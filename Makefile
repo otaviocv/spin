@@ -4,7 +4,7 @@ clean:
 	find . -name '__pycache__' -exec rm -r {} +
 	find . -name '.ipynb_checkpoints' -exec rm -r {} +
 	find . -name '.pytest_cache' -exec rm -r {} +
-	rm -rf build/ dist/
+	rm -rf build/ dist/ spin_clustering.egg-info
 
 lint:
 	pydocstyle
