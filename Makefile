@@ -18,4 +18,4 @@ build:
 	python setup.py sdist bdist_wheel
 
 test:
-	pytest --cov --codestyle --docstyle ${TEST_PATH}
+	pytest --cov-report xml:coverage.xml --cov=${TEST_PATH} --codestyle --docstyle ${TEST_PATH}
