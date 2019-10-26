@@ -134,7 +134,7 @@ def single_neighborhood_sort(distances, weight_matrix):
     size = len(distances)
     mismatch = distances.dot(weight_matrix)
     min_index = np.argmin(mismatch, axis=1)
-    min_values = mismatch[np.arange(size), idx_m]
+    min_values = mismatch[np.arange(size), min_index]
     max_value = max(min_values)
     sort_score = (min_index + 1.
                   - 0.1 * np.sign((size / 2. - min_index + 1.)) *

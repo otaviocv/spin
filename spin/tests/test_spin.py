@@ -1,1 +1,1 @@
-import pytest as pt
+import pytest
