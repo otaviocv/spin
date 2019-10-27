@@ -56,3 +56,5 @@ spin.run(distances)
 plt.matshow(spin.ordered_distances_)
 plt.show()
 ```
+
+## Documentation
