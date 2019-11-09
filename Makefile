@@ -19,3 +19,6 @@ build:
 
 test:
 	pytest --cov-report xml:coverage.xml --cov=${TEST_PATH} --codestyle --docstyle ${TEST_PATH}
+
+doc:
+	cd docs && make html && cd ..
