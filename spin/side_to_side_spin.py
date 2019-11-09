@@ -1,5 +1,6 @@
 """Side to side SPIN Module."""
 import numpy as np
+from .utils import spin_energy, random_permutation_matrix
 
 
 class SideToSideSPIN():
@@ -76,7 +77,7 @@ class SideToSideSPIN():
         print(f"Initial energy: {self.energy_}")
         print("Actual spin")
         for i in range(self.random_starts):
-            initial_permutation = random_permutation(self.size_)
+            initial_permutation = random_permutation_matrix(self.size_)
             print(initial_permutation[:5, :5])
             permutation = side_to_side(self.distances_,
                                        self.increasing_vector_,

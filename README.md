@@ -2,6 +2,7 @@
 *Sorting Points Into Neighborhoods Python Package*
 
 [![Travis](https://api.travis-ci.org/otaviocv/spin.svg?branch=master)](https://travis-ci.org/otaviocv/spin)
+[![codecov](https://codecov.io/gh/otaviocv/spin/branch/master/graph/badge.svg)](https://codecov.io/gh/otaviocv/spin)
 
 ## Introduction
 

@@ -9,7 +9,7 @@ setup(name="spin-clustering",
       maintainer_email="otaviocv.deluqui@gmail.com",
       description="SPIN clustering method package.",
       license="MIT",
-      version="0.0.4",
+      version="0.1.0",
       packages=find_packages(),
       python_requires=">=3.6",
       install_requires=[
